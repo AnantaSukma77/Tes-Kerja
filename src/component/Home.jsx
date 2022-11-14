@@ -9,13 +9,21 @@ export default function Home() {
       })
       .then((dataLogin) => {
         setProducts(dataLogin.Results);
-        console.log(dataLogin);
+        // console.log(dataLogin);
       });
   };
 
   useEffect(() => {
     masuk();
   }, []);
+
+  const findProduct = (id) => {
+    return products.filter((product) => {
+      console.log(product.Mfr_ID);
+      return product.Mfr_ID === id;
+    });
+  };
+
   return (
     <div>
       <header>
@@ -44,12 +52,18 @@ export default function Home() {
             {products &&
               products.map((product) => (
                 <tr>
-                  <td>{product.id}</td>
-                  <td>9999</td>
-                  <td>indonesia</td>
-                  <td>tesla</td>
+                  <td>{product.Id}</td>
+                  <td>{product.Mfr_ID}</td>
+                  <td>{product.Country}</td>
+                  <td>{product.Mfr_Name}</td>
                   <td>
-                    <button>Details</button>
+                    <button
+                      onClick={() => {
+                        findProduct(product.id);
+                      }}
+                    >
+                      Details
+                    </button>
                   </td>
                 </tr>
               ))}
