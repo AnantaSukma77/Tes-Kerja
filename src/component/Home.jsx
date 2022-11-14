@@ -1,16 +1,19 @@
+import { useState, useEffect } from 'react';
 export default function Home() {
-  const [products, setProducts] = React.useState([]);
+  const [products, setProducts] = useState(null);
   const masuk = () => {
-    method: 'GET',
-      fetch('https://vpic.nhtsa.dot.gov/api/vehicles/getallmanufacturers?format=json')
-        .then((response) => {
-          return response.json();
-        })
-        .then((dataLogin) => {
-          setProducts(dataLogin.Result);
-        });
+    // method: 'GET',
+    fetch('https://vpic.nhtsa.dot.gov/api/vehicles/getallmanufacturers?format=json', { method: 'GET' })
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataLogin) => {
+        setProducts(dataLogin.Results);
+        console.log(dataLogin);
+      });
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     masuk();
   }, []);
   return (
@@ -28,24 +31,29 @@ export default function Home() {
       </div>
       <div className="tabelIsi">
         <table border="1">
-          <tr className="judulTabel">
-            <td>No</td>
-            <td>Manufaktur ID</td>
-            <td>Country</td>
-            <td>Manufaktur name</td>
-            <td>Action</td>
-          </tr>
-          {products.map((product) => (
-            <tr>
-              <td>1</td>
-              <td>9999</td>
-              <td>indonesia</td>
-              <td>tesla</td>
-              <td>
-                <button>Details</button>
-              </td>
+          <thead>
+            <tr className="judulTabel">
+              <td>No</td>
+              <td>Manufaktur ID</td>
+              <td>Country</td>
+              <td>Manufaktur name</td>
+              <td>Action</td>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {products &&
+              products.map((product) => (
+                <tr>
+                  <td>{product.id}</td>
+                  <td>9999</td>
+                  <td>indonesia</td>
+                  <td>tesla</td>
+                  <td>
+                    <button>Details</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
     </div>
